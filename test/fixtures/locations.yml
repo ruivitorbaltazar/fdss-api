@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  location_category: one
+  location_sub_category: one
+  address: one
+  notes: MyText
+
+two:
+  name: MyString
+  description: MyText
+  location_category: two
+  location_sub_category: two
+  address: two
+  notes: MyText

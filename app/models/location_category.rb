@@ -1,0 +1,2 @@
+class LocationCategory < ApplicationRecord
+end

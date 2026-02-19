@@ -1,4 +1,35 @@
 Rails.application.routes.draw do
+  resources :ride_participants
+  resources :booking_participants
+  resources :poll_answers
+  resources :poll_questions
+  resources :polls
+  resources :rides
+  resources :vehicles
+  resources :vehicle_fuels
+  resources :vehicle_models
+  resources :vehicle_brands
+  resources :vehicle_categories
+  resources :edition_items
+  resources :items
+  resources :reactions
+  resources :comments
+  resources :booking_posts
+  resources :edition_posts
+  resources :event_posts
+  resources :posts
+  resources :bookings
+  resources :participants
+  resources :editions
+  resources :users
+  resources :personal_restrictions
+  resources :restrictions
+  resources :people
+  resources :locations
+  resources :addresses
+  resources :countries
+  resources :location_sub_categories
+  resources :location_categories
   resources :events
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

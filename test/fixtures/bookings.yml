@@ -1,0 +1,41 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  edition: one
+  location: one
+  start_date: 2026-02-19 19:06:57
+  end_date: 2026-02-19 19:06:57
+  contact_first_name: MyString
+  contact_last_name: MyString
+  contact_phone_code: MyString
+  contact_phone_number: MyString
+  price_adult: 1
+  price_child: 1
+  price_total: 1
+  external_url: MyString
+  notes: MyText
+  is_visible: false
+  is_scheduled: false
+  user: one
+
+two:
+  name: MyString
+  description: MyText
+  edition: two
+  location: two
+  start_date: 2026-02-19 19:06:57
+  end_date: 2026-02-19 19:06:57
+  contact_first_name: MyString
+  contact_last_name: MyString
+  contact_phone_code: MyString
+  contact_phone_number: MyString
+  price_adult: 1
+  price_child: 1
+  price_total: 1
+  external_url: MyString
+  notes: MyText
+  is_visible: false
+  is_scheduled: false
+  user: two
