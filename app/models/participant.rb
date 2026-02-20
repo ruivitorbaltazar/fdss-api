@@ -1,7 +1,12 @@
 class Participant < ApplicationRecord
+  enum role: %i[host guest vip]
+  enum status: %i[invited confirmed cancelled attended]
+
   belongs_to :person
   belongs_to :edition
 
-  enum role: { host: 0,  guest: 1,  vip: 2 }
-  enum status: { invited: 0, confirmed: 1, cancelled: 2, attended: 3 }
+  has_many :booking_participants
+  has_many :bookings, through: :booking_participants
+  has_many :rides_participants
+  has_many :rides, through: :rides_participants
 end

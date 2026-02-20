@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_19_193631) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_20_102129) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -146,6 +146,15 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_19_193631) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "filiations", force: :cascade do |t|
+    t.bigint "parent_person_id", null: false
+    t.bigint "child_person_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_person_id"], name: "index_filiations_on_child_person_id"
+    t.index ["parent_person_id"], name: "index_filiations_on_parent_person_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -205,8 +214,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_19_193631) do
     t.string "last_name"
     t.datetime "birth_date"
     t.bigint "spouse_person_id"
-    t.bigint "guardian_1_person_id"
-    t.bigint "guardian_2_person_id"
     t.string "phone_code"
     t.string "phone_number"
     t.string "email"
@@ -215,8 +222,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_19_193631) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_people_on_address_id"
-    t.index ["guardian_1_person_id"], name: "index_people_on_guardian_1_person_id"
-    t.index ["guardian_2_person_id"], name: "index_people_on_guardian_2_person_id"
     t.index ["spouse_person_id"], name: "index_people_on_spouse_person_id"
   end
 
@@ -386,6 +391,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_19_193631) do
   add_foreign_key "event_posts", "events"
   add_foreign_key "event_posts", "posts"
   add_foreign_key "events", "users"
+  add_foreign_key "filiations", "people", column: "child_person_id"
+  add_foreign_key "filiations", "people", column: "parent_person_id"
   add_foreign_key "location_sub_categories", "location_categories"
   add_foreign_key "locations", "addresses"
   add_foreign_key "locations", "location_categories"
@@ -393,8 +400,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_19_193631) do
   add_foreign_key "participants", "editions"
   add_foreign_key "participants", "people"
   add_foreign_key "people", "addresses"
-  add_foreign_key "people", "people", column: "guardian_1_person_id"
-  add_foreign_key "people", "people", column: "guardian_2_person_id"
   add_foreign_key "people", "people", column: "spouse_person_id"
   add_foreign_key "personal_restrictions", "people"
   add_foreign_key "personal_restrictions", "restrictions"

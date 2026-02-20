@@ -1,3 +1,12 @@
 class Post < ApplicationRecord
   belongs_to :user
+
+  has_many :event_posts
+  has_many :events, through: :event_posts
+  has_many :edition_posts
+  has_many :editions, through: :edition_posts
+  has_many :booking_posts
+  has_many :bookings, through: :booking_posts
+  has_many :comments
+  has_many :reactions
 end

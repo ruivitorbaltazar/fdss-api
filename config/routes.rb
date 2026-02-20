@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :filiations
   resources :ride_participants
   resources :booking_participants
   resources :poll_answers
