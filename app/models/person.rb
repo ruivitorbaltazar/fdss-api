@@ -1,11 +1,11 @@
 class Person < ApplicationRecord
-  belongs_to :spouse_person,
+  belongs_to :partner_person,
               class_name: 'Person',
-              foreign_key: 'spouse_person_id',
+              foreign_key: 'partner_person_id',
               optional: true
-  has_one :inverse_spouse_person,
+  has_one :inverse_partner_person,
           class_name: 'Person',
-          foreign_key: 'spouse_person_id'
+          foreign_key: 'partner_person_id'
   belongs_to :guardian_1_person,
               class_name: 'Person',
               foreign_key: 'guardian_1_person_id',

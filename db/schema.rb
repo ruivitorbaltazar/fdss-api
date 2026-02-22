@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_22_214505) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,6 +95,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_214505) do
     t.bigint "item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "amount"
+    t.text "notes"
     t.index ["edition_id"], name: "index_edition_items_on_edition_id"
     t.index ["item_id"], name: "index_edition_items_on_item_id"
   end
@@ -158,8 +160,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_214505) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "amount"
-    t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -213,7 +213,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_214505) do
     t.string "first_name"
     t.string "last_name"
     t.datetime "birth_date"
-    t.bigint "spouse_person_id"
+    t.bigint "partner_person_id"
     t.string "phone_code"
     t.string "phone_number"
     t.string "email"
@@ -222,7 +222,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_214505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_people_on_address_id"
-    t.index ["spouse_person_id"], name: "index_people_on_spouse_person_id"
+    t.index ["partner_person_id"], name: "index_people_on_partner_person_id"
   end
 
   create_table "personal_restrictions", force: :cascade do |t|
@@ -401,7 +401,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_214505) do
   add_foreign_key "participants", "editions"
   add_foreign_key "participants", "people"
   add_foreign_key "people", "addresses"
-  add_foreign_key "people", "people", column: "spouse_person_id"
+  add_foreign_key "people", "people", column: "partner_person_id"
   add_foreign_key "personal_restrictions", "people"
   add_foreign_key "personal_restrictions", "restrictions"
   add_foreign_key "poll_answers", "poll_questions"

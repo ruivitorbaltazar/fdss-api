@@ -4,7 +4,7 @@ one:
   first_name: MyString
   last_name: MyString
   birth_date: 2026-02-19 18:23:21
-  spouse_person: one
+  partner_person: one
   guardian_1_person: one
   guardian_2_person: one
   phone_code: MyString
@@ -17,7 +17,7 @@ two:
   first_name: MyString
   last_name: MyString
   birth_date: 2026-02-19 18:23:21
-  spouse_person: two
+  partner_person: two
   guardian_1_person: two
   guardian_2_person: two
   phone_code: MyString
