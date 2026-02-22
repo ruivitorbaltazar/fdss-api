@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  devise_for :users, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'signup'
+  },
+  controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
+
   resources :filiations
   resources :ride_participants
   resources :booking_participants
@@ -22,7 +32,6 @@ Rails.application.routes.draw do
   resources :bookings
   resources :participants
   resources :editions
-  resources :users
   resources :personal_restrictions
   resources :restrictions
   resources :people
