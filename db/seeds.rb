@@ -573,7 +573,7 @@ Person.first_or_create([
   {
     first_name: "João",
     last_name: "Silva",
-    date_of_birth: Date.new(1990, 1, 1),
+    birth_date: Date.new(1990, 1, 1),
     phone_code: "351",
     phone_number: "912345678",
     email: "joao.silva@example.com",
@@ -582,7 +582,7 @@ Person.first_or_create([
   {
     first_name: "Maria",
     last_name: "Santos",
-    date_of_birth: Date.new(1985, 5, 15),
+    birth_date: Date.new(1985, 5, 15),
     partner_person_id: 1,
     phone_code: "351",
     phone_number: "923456789",
@@ -592,7 +592,7 @@ Person.first_or_create([
   {
     first_name: "Pedro",
     last_name: "Santos Silva",
-    date_of_birth: Date.new(2010, 9, 30),
+    birth_date: Date.new(2010, 9, 30),
     phone_code: "351",
     phone_number: "934567890",
     email: "pedro.santos.silva@example.com",
@@ -877,7 +877,7 @@ Comment.first_or_create([
   },
   {
     post_id: 1,
-    user_id: 3,
+    user_id: 1,
     body: "Eu também estou super empolgado para o Fim de Semana Secreto! Vai ser uma ótima oportunidade para fazer novas amizades e criar memórias inesquecíveis. Mal posso esperar para começar!"
   },
   {
@@ -891,7 +891,7 @@ Comment.first_or_create([
 puts('>> Creating Reactions')
 Reaction.first_or_create([
   { post_id: 1, comment_id: nil, user_id: 2, emoji: "👍" },
-  { post_id: nil, comment_id: 1, user_id: 3, emoji: "❤️" },
+  { post_id: nil, comment_id: 1, user_id: 2, emoji: "❤️" },
   { post_id: nil, comment_id: 2, user_id: 1, emoji: "😊" },
   { post_id: 2, comment_id: nil, user_id: 1, emoji: "🇵🇹" }
 ])
@@ -1288,12 +1288,12 @@ PollAnswer.first_or_create([
   {
     poll_question_id: 1,
     body: "Caminhada na Natureza",
-    user_id: 2
+    user_id: 1
   },
   {
     poll_question_id: 1,
     body: "Visita a um Museu",
-    user_id: 3
+    user_id: 2
   },
   {
     poll_question_id: 2,
@@ -1303,6 +1303,6 @@ PollAnswer.first_or_create([
   {
     poll_question_id: 2,
     body: "22 a 24 de Janeiro",
-    user_id: 3
+    user_id: 1
   }
 ])
