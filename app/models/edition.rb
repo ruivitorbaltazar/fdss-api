@@ -1,6 +1,6 @@
 class Edition < ApplicationRecord
   belongs_to :event
-  belongs_to :meeting_location
+  belongs_to :meeting_location, class_name: "Location", optional: true
   belongs_to :user
 
   has_many :edition_items

@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  enum category: %i[photo video text]
+
   belongs_to :user
 
   has_many :event_posts

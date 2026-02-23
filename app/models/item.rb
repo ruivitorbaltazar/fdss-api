@@ -1,6 +1,5 @@
 class Item < ApplicationRecord
-  has_many :edition_items
-  has_many :editions, through: :edition_items
+  belongs_to :event
 
   has_many :edition_items
   has_many :editions, through: :edition_items

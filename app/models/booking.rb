@@ -1,4 +1,7 @@
 class Booking < ApplicationRecord
+  enum scheduled_status: %i[unscheduled scheduled cancelled]
+  enum visibility_status: %i[hidden visible]
+
   belongs_to :edition
   belongs_to :location
   belongs_to :user

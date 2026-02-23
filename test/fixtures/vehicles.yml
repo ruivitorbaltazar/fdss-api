@@ -1,8 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  driver_participant: one
-  seats_available: 1
+  seats: 1
   license_plate: MyString
   fuel_consumption: 1
   vehicle_category: one
@@ -11,8 +10,7 @@ one:
   vehicle_fuel: one
 
 two:
-  driver_participant: two
-  seats_available: 1
+  seats: 1
   license_plate: MyString
   fuel_consumption: 1
   vehicle_category: two

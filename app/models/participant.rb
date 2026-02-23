@@ -1,6 +1,8 @@
 class Participant < ApplicationRecord
   enum role: %i[host guest vip]
   enum status: %i[invited confirmed cancelled attended]
+  enum payment_status: %i[unpaid partially_paid paid]
+  enum visibility_status: %i[hidden visible]
 
   belongs_to :person
   belongs_to :edition

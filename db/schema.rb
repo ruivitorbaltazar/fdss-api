@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_23_184648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,10 +20,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
     t.string "postal_code"
     t.string "city"
     t.string "state"
-    t.string "coordinates"
     t.bigint "country_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
+    t.string "address_line_3"
     t.index ["country_id"], name: "index_addresses_on_country_id"
   end
 
@@ -56,13 +58,13 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
     t.string "contact_last_name"
     t.string "contact_phone_code"
     t.string "contact_phone_number"
-    t.integer "price_adult"
-    t.integer "price_child"
-    t.integer "price_total"
+    t.float "price_adult"
+    t.float "price_child"
+    t.float "price_total"
     t.string "external_url"
     t.text "notes"
-    t.boolean "is_visible"
-    t.boolean "is_scheduled"
+    t.integer "visibility_status", default: 0
+    t.integer "scheduling_status", default: 0
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -162,6 +164,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "event_id"
+    t.index ["event_id"], name: "index_items_on_event_id"
   end
 
   create_table "location_categories", force: :cascade do |t|
@@ -197,9 +201,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
     t.bigint "edition_id", null: false
     t.integer "role"
     t.integer "status"
-    t.boolean "is_visible"
-    t.integer "payment_due"
-    t.boolean "has_paid"
+    t.integer "visibility_status", default: 0
+    t.float "payment_due"
+    t.integer "payment_status", default: 0
     t.text "notes"
     t.datetime "invitation_date"
     t.datetime "response_date"
@@ -294,6 +298,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
     t.text "treatments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "name"
+    t.text "description"
   end
 
   create_table "ride_participants", force: :cascade do |t|
@@ -309,8 +315,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
   create_table "rides", force: :cascade do |t|
     t.bigint "edition_id", null: false
     t.bigint "vehicle_id", null: false
-    t.integer "fuel_price"
-    t.integer "distance"
+    t.float "fuel_price"
+    t.float "distance"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -326,14 +332,22 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
     t.datetime "updated_at", null: false
     t.string "jti", null: false
     t.string "email", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["person_id"], name: "index_users_on_person_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "vehicle_brands", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "vehicle_category_id", null: false
+    t.index ["vehicle_category_id"], name: "index_vehicle_brands_on_vehicle_category_id"
   end
 
   create_table "vehicle_categories", force: :cascade do |t|
@@ -357,15 +371,17 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
   end
 
   create_table "vehicles", force: :cascade do |t|
-    t.integer "seats_available"
+    t.integer "seats"
     t.string "license_plate"
-    t.integer "fuel_consumption"
+    t.float "fuel_consumption"
     t.bigint "vehicle_category_id", null: false
     t.bigint "vehicle_brand_id", null: false
     t.bigint "vehicle_model_id", null: false
     t.bigint "vehicle_fuel_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "owner_person_id", null: false
+    t.index ["owner_person_id"], name: "index_vehicles_on_owner_person_id"
     t.index ["vehicle_brand_id"], name: "index_vehicles_on_vehicle_brand_id"
     t.index ["vehicle_category_id"], name: "index_vehicles_on_vehicle_category_id"
     t.index ["vehicle_fuel_id"], name: "index_vehicles_on_vehicle_fuel_id"
@@ -394,6 +410,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
   add_foreign_key "events", "users"
   add_foreign_key "filiations", "people", column: "child_person_id"
   add_foreign_key "filiations", "people", column: "parent_person_id"
+  add_foreign_key "items", "events"
   add_foreign_key "location_sub_categories", "location_categories"
   add_foreign_key "locations", "addresses"
   add_foreign_key "locations", "location_categories"
@@ -418,7 +435,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_22_222044) do
   add_foreign_key "rides", "editions"
   add_foreign_key "rides", "vehicles"
   add_foreign_key "users", "people"
+  add_foreign_key "vehicle_brands", "vehicle_categories"
   add_foreign_key "vehicle_models", "vehicle_brands"
+  add_foreign_key "vehicles", "people", column: "owner_person_id"
   add_foreign_key "vehicles", "vehicle_brands"
   add_foreign_key "vehicles", "vehicle_categories"
   add_foreign_key "vehicles", "vehicle_fuels"
