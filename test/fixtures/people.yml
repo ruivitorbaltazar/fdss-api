@@ -5,8 +5,6 @@ one:
   last_name: MyString
   birth_date: 2026-02-19 18:23:21
   partner_person: one
-  guardian_1_person: one
-  guardian_2_person: one
   phone_code: MyString
   phone_number: MyString
   email: MyString
@@ -18,8 +16,6 @@ two:
   last_name: MyString
   birth_date: 2026-02-19 18:23:21
   partner_person: two
-  guardian_1_person: two
-  guardian_2_person: two
   phone_code: MyString
   phone_number: MyString
   email: MyString
