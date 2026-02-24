@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :comment_comments
+  resources :post_comments
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
@@ -12,9 +14,9 @@ Rails.application.routes.draw do
   resources :filiations
   resources :ride_participants
   resources :booking_participants
-  resources :poll_answers
-  resources :poll_questions
-  resources :polls
+  resources :questionnaire_answers
+  resources :questionnaire_questions
+  resources :questionnaires
   resources :rides
   resources :vehicles
   resources :vehicle_fuels

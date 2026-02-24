@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_24_170533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,13 +73,20 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
+  create_table "comment_comments", force: :cascade do |t|
+    t.bigint "parent_comment_id", null: false
+    t.bigint "child_comment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_comment_id"], name: "index_comment_comments_on_child_comment_id"
+    t.index ["parent_comment_id"], name: "index_comment_comments_on_parent_comment_id"
+  end
+
   create_table "comments", force: :cascade do |t|
-    t.bigint "post_id", null: false
     t.text "body"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -185,8 +192,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.bigint "location_category_id", null: false
-    t.bigint "location_sub_category_id", null: false
+    t.bigint "location_category_id"
+    t.bigint "location_sub_category_id"
     t.bigint "address_id", null: false
     t.text "notes"
     t.datetime "created_at", null: false
@@ -240,32 +247,13 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
     t.index ["restriction_id"], name: "index_personal_restrictions_on_restriction_id"
   end
 
-  create_table "poll_answers", force: :cascade do |t|
-    t.text "body"
-    t.bigint "poll_question_id", null: false
-    t.bigint "user_id", null: false
+  create_table "post_comments", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "comment_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["poll_question_id"], name: "index_poll_answers_on_poll_question_id"
-    t.index ["user_id"], name: "index_poll_answers_on_user_id"
-  end
-
-  create_table "poll_questions", force: :cascade do |t|
-    t.text "body"
-    t.bigint "poll_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["poll_id"], name: "index_poll_questions_on_poll_id"
-  end
-
-  create_table "polls", force: :cascade do |t|
-    t.datetime "closing_date"
-    t.bigint "edition_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["edition_id"], name: "index_polls_on_edition_id"
-    t.index ["user_id"], name: "index_polls_on_user_id"
+    t.index ["comment_id"], name: "index_post_comments_on_comment_id"
+    t.index ["post_id"], name: "index_post_comments_on_post_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -278,6 +266,35 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "questionnaire_answers", force: :cascade do |t|
+    t.text "body"
+    t.bigint "questionnaire_question_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionnaire_question_id"], name: "index_questionnaire_answers_on_questionnaire_question_id"
+    t.index ["user_id"], name: "index_questionnaire_answers_on_user_id"
+  end
+
+  create_table "questionnaire_questions", force: :cascade do |t|
+    t.text "body"
+    t.bigint "questionnaire_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["questionnaire_id"], name: "index_questionnaire_questions_on_questionnaire_id"
+  end
+
+  create_table "questionnaires", force: :cascade do |t|
+    t.datetime "closing_date"
+    t.bigint "edition_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "category"
+    t.index ["edition_id"], name: "index_questionnaires_on_edition_id"
+    t.index ["user_id"], name: "index_questionnaires_on_user_id"
   end
 
   create_table "reactions", force: :cascade do |t|
@@ -294,8 +311,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
 
   create_table "restrictions", force: :cascade do |t|
     t.integer "category"
-    t.text "avoidances"
-    t.text "treatments"
+    t.text "prevention"
+    t.text "treatment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "name"
@@ -396,7 +413,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
   add_foreign_key "bookings", "editions"
   add_foreign_key "bookings", "locations"
   add_foreign_key "bookings", "users"
-  add_foreign_key "comments", "posts"
+  add_foreign_key "comment_comments", "comments", column: "child_comment_id"
+  add_foreign_key "comment_comments", "comments", column: "parent_comment_id"
   add_foreign_key "comments", "users"
   add_foreign_key "edition_items", "editions"
   add_foreign_key "edition_items", "items"
@@ -421,12 +439,14 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_23_193941) do
   add_foreign_key "people", "people", column: "partner_person_id"
   add_foreign_key "personal_restrictions", "people"
   add_foreign_key "personal_restrictions", "restrictions"
-  add_foreign_key "poll_answers", "poll_questions"
-  add_foreign_key "poll_answers", "users"
-  add_foreign_key "poll_questions", "polls"
-  add_foreign_key "polls", "editions"
-  add_foreign_key "polls", "users"
+  add_foreign_key "post_comments", "comments"
+  add_foreign_key "post_comments", "posts"
   add_foreign_key "posts", "users"
+  add_foreign_key "questionnaire_answers", "questionnaire_questions"
+  add_foreign_key "questionnaire_answers", "users"
+  add_foreign_key "questionnaire_questions", "questionnaires"
+  add_foreign_key "questionnaires", "editions"
+  add_foreign_key "questionnaires", "users"
   add_foreign_key "reactions", "comments"
   add_foreign_key "reactions", "posts"
   add_foreign_key "reactions", "users"

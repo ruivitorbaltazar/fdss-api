@@ -9,6 +9,9 @@ class Post < ApplicationRecord
   has_many :editions, through: :edition_posts
   has_many :booking_posts
   has_many :bookings, through: :booking_posts
-  has_many :comments
+
+  has_many :post_comments
+  has_many :comments, through: :post_comments
+
   has_many :reactions
 end

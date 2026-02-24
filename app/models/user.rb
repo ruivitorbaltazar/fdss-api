@@ -19,8 +19,8 @@ class User < ApplicationRecord
   has_many :events
   has_many :editions
   has_many :bookings
-  has_many :polls
-  has_many :poll_answers
+  has_many :questionnaires
+  has_many :questionnaire_answers
   has_many :posts
   has_many :comments
   has_many :reactions

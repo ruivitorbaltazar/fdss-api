@@ -12,5 +12,5 @@ class Edition < ApplicationRecord
   has_many :participants
   has_many :bookings
   has_many :locations, through: :bookings
-  has_many :polls
+  has_many :questionnaires
 end
