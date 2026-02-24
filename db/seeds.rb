@@ -1397,7 +1397,7 @@ def create_questionnaires
   Questionnaire.first_or_create({
     edition_id: Edition.first.id,
     user_id: 1,
-    category: ,
+    category: 0,
     closing_date: Date.new(2026, 1, 10),
   })
 end
